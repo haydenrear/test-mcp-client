@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mcp-tool-gateway": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "build/libs/mcp-tool-gateway.jar"
+      ],
+      "env": {
+        "SPRING_PROFILES_ACTIVE": "clienttest"
+      }
+    }
+  }
+}

@@ -1,29 +1,37 @@
 plugins {
-    java
-    id("org.springframework.boot") version "3.5.4"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("com.hayden.mcp")
+    id("com.hayden.dgs-graphql")
+    id("com.hayden.spring-app")
 }
 
 group = "com.hayden"
-version = "0.0.1-SNAPSHOT"
-description = "test-mcp-client"
+version = "1.0.0"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-repositories {
-    mavenCentral()
-}
+tasks.register("prepareKotlinBuildScriptModel") {}
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(project(":utilitymodule"))
+    implementation(project(":tracing"))
+    implementation(project(":mcp-tool-gateway"))
+    implementation(project(":graphql"))
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.register<Copy>("copyToolGateway") {
+    dependsOn(project(":mcp-tool-gateway").tasks.named("bootJar"))
+    val sourcePaths = file(project(":mcp-tool-gateway").layout.buildDirectory).resolve("libs/mcp-tool-gateway-1.0.0.jar")
+    from(sourcePaths)
+    into(file(layout.buildDirectory).resolve("libs"))
+    // Optionally rename it to a fixed name
+    rename { "mcp-tool-gateway.jar" }
+}
+
+tasks.generateJava {
+    typeMapping = mutableMapOf(
+        Pair("ServerByteArray", "com.hayden.testmcpclient.scalar.ByteArray"),
+        Pair("Float32Array", "com.hayden.testmcpclient.scalar.FloatArray"),
+    )
+}
+
+tasks.test {
+    dependsOn("copyToolGateway")
 }
