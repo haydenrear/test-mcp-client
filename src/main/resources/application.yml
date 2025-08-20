@@ -1,6 +1,5 @@
 server.port: 8083
-logging.config: classpath:logback.xml
-
+logging.config: classpath:logback-test-mcp-client.xml
 
 otel:
   instrumentation:
@@ -28,7 +27,7 @@ graphql-props:
 
 spring:
   main:
-    banner-mode: off
+    banner-mode: log
   ai:
     vectorstore.type: none
     mcp:
@@ -36,3 +35,6 @@ spring:
         enabled: true
         stdio:
           servers-configuration: classpath:mcp-servers/servers.json
+  docker:
+    compose:
+      enabled: false

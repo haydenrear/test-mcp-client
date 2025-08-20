@@ -11,9 +11,10 @@ tasks.register("prepareKotlinBuildScriptModel") {}
 
 dependencies {
     implementation(project(":utilitymodule"))
-    implementation(project(":tracing"))
     implementation(project(":mcp-tool-gateway"))
+    implementation(project(":tracing"))
     implementation(project(":graphql"))
+    implementation(project(":commit-diff-model"))
 }
 
 tasks.register<Copy>("copyToolGateway") {
@@ -25,13 +26,9 @@ tasks.register<Copy>("copyToolGateway") {
     rename { "mcp-tool-gateway.jar" }
 }
 
-tasks.generateJava {
-    typeMapping = mutableMapOf(
-        Pair("ServerByteArray", "com.hayden.testmcpclient.scalar.ByteArray"),
-        Pair("Float32Array", "com.hayden.testmcpclient.scalar.FloatArray"),
-    )
+tasks.compileJava {
+    dependsOn("copyToolGateway")
 }
-
 tasks.test {
     dependsOn("copyToolGateway")
 }
