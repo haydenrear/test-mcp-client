@@ -30,6 +30,7 @@ class TestMcpClientApplicationTests {
 
         var list = m.listTools();
         assertThat(list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server"))).isTrue();
+        assertThat(list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.doSomething"))).isTrue();
     }
 
 }
