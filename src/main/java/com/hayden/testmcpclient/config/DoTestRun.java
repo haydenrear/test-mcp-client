@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,8 +26,8 @@ public class DoTestRun {
             log.info("{}", mcpSyncClients.size());
 
             var m = mcpSyncClients.getFirst();
-            await().during(Duration.ofSeconds(1))
-                    .atMost(Duration.ofSeconds(45))
+            await().during(Duration.ofSeconds(5))
+                    .atMost(Duration.ofSeconds(240))
                     .until(() -> {
                         var tools = m.listTools();
                         return tools.tools().size() > 1;
@@ -35,6 +36,7 @@ public class DoTestRun {
             var called = m.callTool(new McpSchema.CallToolRequest("redeploy-mcp-server", Map.of("Service to redeploy", "test-mcp-server")));
             log.info("{}", called.isError());
             var list = m.listTools();
+            log.info("{} here are the tools.", list.tools().stream().map(McpSchema.Tool::name).collect(Collectors.joining(" ,")));
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server")));
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.doSomething")));
 

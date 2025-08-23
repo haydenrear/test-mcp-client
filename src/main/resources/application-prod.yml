@@ -1,0 +1,43 @@
+server.port: 8083
+logging.config: classpath:logback-test-mcp-client.xml
+
+otel:
+  instrumentation:
+    spring-web:
+      enabled: false
+    spring-webmvc:
+      enabled: false
+    spring-webflux:
+      enabled: false
+    jdbc:
+      enabled: false
+    kafka:
+      enabled: false
+    mongo:
+      enabled: false
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+graphql-props:
+  port: 8085
+  url: localhost
+
+spring:
+  main:
+    banner-mode: log
+
+  ai:
+    vectorstore.type: none
+    mcp:
+      client:
+        enabled: true
+        stdio:
+          servers-configuration: classpath:mcp-servers/servers-prod.json
+        name: test-mcp-client
+        request-timeout: 120s
+  docker:
+    compose:
+      enabled: false
