@@ -28,6 +28,7 @@ graphql-props:
 spring:
   main:
     banner-mode: log
+
   ai:
     vectorstore.type: none
     mcp:
@@ -36,6 +37,7 @@ spring:
         stdio:
           servers-configuration: classpath:mcp-servers/servers.json
         name: test-mcp-client
+        request-timeout: 90s
   docker:
     compose:
       enabled: false

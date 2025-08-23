@@ -15,6 +15,12 @@ dependencies {
     implementation(project(":tracing"))
     implementation(project(":graphql"))
     implementation(project(":commit-diff-model"))
+    implementation("org.awaitility:awaitility:4.2.0")
+}
+
+tasks.bootJar {
+    archiveFileName = "test-mcp-server.jar"
+    enabled = true
 }
 
 tasks.register<Copy>("copyToolGateway") {
