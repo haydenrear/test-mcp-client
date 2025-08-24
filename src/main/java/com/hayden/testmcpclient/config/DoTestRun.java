@@ -3,9 +3,13 @@ package com.hayden.testmcpclient.config;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.spec.McpSchema;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,6 +22,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Slf4j
 @Configuration
 public class DoTestRun {
+
+    @Autowired
+    @Lazy
+    ApplicationContext applicationContext;
 
     @Bean
     public CommandLineRunner commandLineRunner(List<McpSyncClient> mcpSyncClients) {
@@ -42,7 +50,7 @@ public class DoTestRun {
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.zoom_trace")));
 
             m.closeGracefully();
-
+            SpringApplication.exit(applicationContext);
             System.exit(0);
         };
     }
