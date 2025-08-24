@@ -33,12 +33,15 @@ public class DoTestRun {
                         return tools.tools().size() > 1;
                     });
 
-            var called = m.callTool(new McpSchema.CallToolRequest("redeploy-mcp-server", Map.of("Service to redeploy", "test-mcp-server")));
+            var called = m.callTool(new McpSchema.CallToolRequest("redeploy-mcp-server", Map.of("service_name", "commit-diff-context-mcp")));
             log.info("{}", called.isError());
+            log.info("{}", called);
             var list = m.listTools();
             log.info("{} here are the tools.", list.tools().stream().map(McpSchema.Tool::name).collect(Collectors.joining(" ,")));
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server")));
-            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.doSomething")));
+            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.zoom_trace")));
+
+            m.closeGracefully();
 
             System.exit(0);
         };
