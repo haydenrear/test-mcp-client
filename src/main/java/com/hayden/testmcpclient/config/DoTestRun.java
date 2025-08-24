@@ -1,5 +1,6 @@
 package com.hayden.testmcpclient.config;
 
+import com.hayden.utilitymodule.stream.StreamUtil;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.spec.McpSchema;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,11 @@ public class DoTestRun {
             log.info("{} here are the tools.", list.tools().stream().map(McpSchema.Tool::name).collect(Collectors.joining(" ,")));
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server")));
             log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.zoom_trace")));
+
+            var cached = StreamUtil.toStream(Files.list(Paths.get(".cache")))
+                            .toList();
+
+            log.info("Here are cached files:\n{}", cached);
 
             m.closeGracefully();
             SpringApplication.exit(applicationContext);
