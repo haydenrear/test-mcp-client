@@ -1,5 +1,7 @@
 package com.hayden.testmcpclient.config;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hayden.utilitymodule.stream.StreamUtil;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.spec.McpSchema;
@@ -44,13 +46,26 @@ public class DoTestRun {
                         return tools.tools().size() > 1;
                     });
 
-            var called = m.callTool(new McpSchema.CallToolRequest("redeploy-mcp-server", Map.of("service_name", "commit-diff-context-mcp")));
-            log.info("{}", called.isError());
-            log.info("{}", called);
-            var list = m.listTools();
-            log.info("{} here are the tools.", list.tools().stream().map(McpSchema.Tool::name).collect(Collectors.joining(" ,")));
-            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server")));
-            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.zoom_trace")));
+//            var called = m.callTool(new McpSchema.CallToolRequest("redeploy-mcp-server", Map.of("service_name", "commit-diff-context-mcp")));
+//            log.info("{}", called.isError());
+//            log.info("{}", called);
+//            var list = m.listTools();
+//            log.info("{} here are the tools.", list.tools().stream().map(McpSchema.Tool::name).collect(Collectors.joining(" ,")));
+//            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("redeploy-mcp-server")));
+//            log.info("{}", list.tools().stream().anyMatch(t -> t.name().equals("test-mcp-server.zoom_trace")));
+            var f= """
+                            {
+                              "filePath": "commit-diff-context-parent/commit-diff-context-mcp/src/main/java/com/hayden/commitdiffcontextmcp/tools/CodeSearchMcpTools.java",
+                              "zoomType": "CREATE",
+                              "targetSymbol": "zoomTrace",
+                              "additionalLines": 3,
+                              "maxSize": 10
+                            }
+                    """;
+            var tools = m.listTools();
+            var t = new ObjectMapper().readValue(f, new TypeReference<Map<String, Object>>() {});
+
+            var called = m.callTool(new McpSchema.CallToolRequest("commit-diff-context-mcp-zoomTrace", t));
 
             var cached = StreamUtil.toStream(Files.list(Paths.get(".cache")))
                             .toList();
