@@ -25,7 +25,7 @@ tasks.bootJar {
 
 tasks.register<Copy>("copyToolGateway") {
     dependsOn(project(":mcp-tool-gateway").tasks.named("bootJar"))
-    val sourcePaths = file(project(":mcp-tool-gateway").layout.buildDirectory).resolve("libs/mcp-tool-gateway-1.0.0.jar")
+    val sourcePaths = file(project(":mcp-tool-gateway").layout.buildDirectory).resolve("libs/mcp-tool-gateway.jar")
     from(sourcePaths)
     into(file(layout.buildDirectory).resolve("libs"))
     // Optionally rename it to a fixed name
