@@ -1,7 +1,7 @@
 <configuration>
     <appender name="MCP_CLIENT" class="ch.qos.logback.core.FileAppender">
         <file>test-mcp-client.log</file>
-        <append>true</append>
+        <append>false</append>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
