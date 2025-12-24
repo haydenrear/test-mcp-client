@@ -1,6 +1,6 @@
 plugins {
     id("com.hayden.mcp")
-    id("com.hayden.dgs-graphql")
+    id("com.hayden.graphql")
     id("com.hayden.spring-app")
 }
 
