@@ -34,11 +34,11 @@ spring:
     mcp:
       client:
         enabled: true
-        sse:
-          connections:
-            spring-hello:
-              url: http://localhost:8081
-              sse-endpoint: /sse
+#        sse:
+#          connections:
+#            spring-hello:
+#              url: http://localhost:8081
+#              sse-endpoint: /sse
         stdio:
           servers-configuration: classpath:mcp-servers/servers.json
         name: test-mcp-client
