@@ -12,8 +12,8 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, JdbcTemplateAutoConfiguration.class, DgsAutoConfiguration.class,
-                        GraphQlAutoConfiguration.class, DgsWebMvcAutoConfiguration.class, WebMvcAutoConfiguration.class })
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, JdbcTemplateAutoConfiguration.class,
+                        GraphQlAutoConfiguration.class,  WebMvcAutoConfiguration.class })
 public class TestMcpClientApplication {
 
     public static void main(String[] args) {
