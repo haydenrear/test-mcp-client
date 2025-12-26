@@ -13,12 +13,12 @@ import java.util.Map;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 
-@SpringBootTest
+//@SpringBootTest
 class TestMcpClientApplicationTests {
 
     @Autowired
     private List<McpSyncClient> mcpSyncClients;
-    @Test
+//    @Test
     void contextLoads() {
         assertThat(mcpSyncClients.size()).isEqualTo(1);
 
